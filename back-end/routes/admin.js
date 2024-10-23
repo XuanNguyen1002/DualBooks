@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
 });
 // **Endpoint mới: Lấy danh sách tất cả admin (Chỉ dành cho admin đã đăng nhập)**
 // GET /api/admins
-router.get('/', authenticateAdmin, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         await adminController.getAllAdmins(req, res);
     } catch (error) {

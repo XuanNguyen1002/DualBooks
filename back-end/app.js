@@ -13,7 +13,7 @@ var booksRouter = require('./routes/books');
 var categoriesRouter = require('./routes/category');
 var customersRouter = require('./routes/customer');
 var ordersRouter = require('./routes/orders');
-var orderItemsRouter = require('./routes/orderItems'); // Import routervar app = express();
+var orderItemsRouter = require('./routes/orderItems');
 var adminRouter = require('./routes/admin');
 // khai báo cor
 const cors = require('cors');
@@ -37,26 +37,31 @@ app.use('/uploads/categories', express.static(path.join(__dirname, 'uploads/cate
 // Cấu hình đường dẫn tĩnh cho thư mục uploads/books
 app.use('/uploads/books', express.static(path.join(__dirname, 'uploads/books')));
 // Middleware để cấu hình CORS
+
 app.use(cors({
   origin: 'http://localhost:3000',
-  methods: 'GET, POST, PUT, DELETE',
-  allowedHeaders: 'Content-Type, Authorization'
-}));
+  methods: 'GET, POST, PUT, DELETE, OPTIONS', // Đảm bảo thêm OPTIONS
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control'] // Thêm 'Cache-Control'
+}))
+app.options('*', cors());
 
 
 
 
 //kết nối db
-const connection = mongoose.connect('mongodb://localhost:27017/DA_TN',{
-})
-.then(()=> console.log('>>>>>>> DB đã kết nối thành công!!!!'))
-.catch(err=> console.log('>>>>>>>> DB error: ',err));
+const connection = mongoose.connect('mongodb://localhost:27017/DA_TN', {})
+    .then(() => {
+        console.log('>>>>>>> DB đã kết nối thành công!!!!');
+    })
+    .catch(err => {
+        console.error('>>>>>>>> DB error: ', err);
+    });
+
 app.use('/', indexRouter);
 app.use('/books',booksRouter);
 app.use('/categories',categoriesRouter);
 app.use('/customers',customersRouter);
 app.use('/orders',ordersRouter);
-app.use('/orders', orderItemsRouter);
 app.use('/admins', adminRouter);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
@@ -81,6 +86,8 @@ app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}/customers`);
   console.log(`http://localhost:${PORT}/customers/6707f3aee55fb28d5793988f`);
   console.log(`http://localhost:${PORT}/customers/status/6707f3aee55fb28d5793988f`);
+  console.log(`http://localhost:${PORT}/orders`);
+
 
 
 
@@ -100,6 +107,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+// Trong app.js
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
 });
 
 module.exports = app;

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 interface typeCustomer {
   name?: string;
@@ -178,18 +178,18 @@ export default function useFetchCustomer() {
         },
         body: JSON.stringify(formData),
       });
-      console.log(formData)
+      console.log(formData);
       if (!response.ok) {
         const errorData = await response.json();
         setErrors({ email: errorData.message });
         return;
-      }else{
-        const data= await response.json();
+      } else {
+        const data = await response.json();
         console.log("Cập nhật thông tin thành công");
         setSuccessMessage(data.message);
         setErrors({});
       }
-     
+
     } catch (error) {
       console.error("Đã xảy ra lỗi khi cập nhật thông tin khách hàng:", error);
       setErrors({ email: "Đã xảy ra lỗi không xác định." });

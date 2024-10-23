@@ -32,7 +32,7 @@ router.put('/:id', async (req, res) => {
   const updatedData = req.body; // Dữ liệu mới để cập nhật
 
   try {
-      const updatedCustomer = await customerController.updateCustomerById(customerId, updatedData);
+      const updatedCustomer = await customerController.updateCustomer(customerId, updatedData);
       if (!updatedCustomer) {
           return res.status(404).json({ error: 'Customer not found' });
       }
@@ -44,7 +44,7 @@ router.put('/:id', async (req, res) => {
 
   
 // DELETE /api/customers/:id - Xóa khách hàng (chỉ admin được xóa)
-router.delete('/:id', authenticateAdmin, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const customerId = req.params.id; // Lấy ID khách hàng từ URL
 
   try {
@@ -78,13 +78,13 @@ router.get('/:id' , async (req, res) => {
   }
 });
 // API chỉnh sửa trạng thái hoạt động của khách hàng
-router.put('/status/:id', authenticateAdmin, async (req, res) => {
+router.put('/status/:id', async (req, res) => {
   try {
       const customerId = req.params.id; // Lấy ID khách hàng từ URL
       const { status } = req.body; // Lấy trạng thái mới từ body của request
 
       // Gọi controller để cập nhật trạng thái khách hàng
-      const updatedCustomer = await customerController.updateCustomerStatus(customerId, status);
+      const updatedCustomer = await customerController.updateCustomer(customerId, status);
       res.status(200).json({ message: 'Customer status updated successfully', updatedCustomer });
   } catch (error) {
       res.status(500).json({ error: error.message });

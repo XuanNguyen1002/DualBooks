@@ -22,7 +22,7 @@ exports.loginCustomer = async (req, res) => {
 // Cập nhật thông tin khách hàng
 exports.updateCustomer = async (customerId, customerData) => {
     try {
-        const updatedCustomer = await customerService.updateCustomer(customerId, customerData);
+        const updatedCustomer = await customerService.updateCustomerStatus(customerId, customerData);
         return updatedCustomer;
     } catch (error) {
         throw new Error('Error updating customer: ' + error.message);

@@ -30,8 +30,7 @@ const AdminSchema = new Schema({
     role: { 
         type: String, 
         required: true,
-        enum: ['admin'] // Có thể mở rộng nếu có nhiều vai trò hơn
-    },
+        enum: ['admin', 'staff']    },
     created_at: { 
         type: Date, 
         default: Date.now 
