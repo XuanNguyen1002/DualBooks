@@ -16,11 +16,12 @@ export const useCustomers = () => {
       const data = await response.json();
       setCustomers(data);
     } catch (err) {
-      setError(err.message);
+      setError((err as Error).message);
     } finally {
       setLoading(false);
     }
   };
+
 
   const deleteCustomer = async (id: string) => {
     const confirmed = window.confirm("Bạn có chắc chắn muốn xóa khách hàng này?");
@@ -38,9 +39,43 @@ export const useCustomers = () => {
         }
 
         // Cập nhật lại danh sách khách hàng sau khi xóa
-        setCustomers(customers.filter(customer => customer.id !== id));
+        setCustomers(customers.filter(customer => customer._id !== id));
       } catch (err) {
-        setError(err.message);
+        // Ép kiểu err thành Error
+        setError((err as Error).message);
+      }
+    }
+  };
+
+  const toggleCustomerStatus = async (id: string) => {
+    // Tìm khách hàng trong danh sách để kiểm tra trạng thái hiện tại
+    const customer = customers.find(c => c._id === id);
+    if (!customer) return;
+  
+    const newStatus = customer.status === 'active' ? 'blocked' : 'active';
+    const confirmed = window.confirm(`Bạn có chắc chắn muốn chuyển trạng thái từ "${customer.status}" sang "${newStatus}" không?`);
+  
+    if (confirmed) {
+      try {
+        const response = await fetch(`http://localhost:3200/customers/${id}/status`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ status: newStatus }), // Gửi trạng thái mới
+        });
+  
+        if (!response.ok) {
+          throw new Error('Không thể cập nhật trạng thái: ' + response.status);
+        }
+  
+        // Cập nhật lại danh sách khách hàng với trạng thái mới
+        const updatedCustomer = await response.json();
+        setCustomers(customers.map(customer => 
+          customer._id === id ? updatedCustomer.customer : customer
+        ));
+      } catch (err) {
+        setError((err as Error).message);
       }
     }
   };
@@ -49,5 +84,5 @@ export const useCustomers = () => {
     fetchCustomers();
   }, []); // Chạy chỉ một lần khi component được mount
 
-  return { customers, loading, error, deleteCustomer };
+  return { customers, loading, error, deleteCustomer, toggleCustomerStatus };
 };

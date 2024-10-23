@@ -8,7 +8,7 @@ const app = express(); // Khởi tạo biến `app` với express
 
 
 var indexRouter = require('./routes/index');
-
+var publishersRouter = require('./routes/publishers');
 var booksRouter = require('./routes/books');
 var categoriesRouter = require('./routes/category');
 var customersRouter = require('./routes/customer');
@@ -30,12 +30,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// Middleware để phục vụ tệp tin tĩnh từ thư mục 'uploads/admins'
+
+// Middleware để phục vụ tệp tin tĩnh từ các thư mục uploads
 app.use('/uploads/admins', express.static(path.join(__dirname, 'uploads/admins')));
-// Cấu hình đường dẫn tĩnh cho thư mục uploads/categories
 app.use('/uploads/categories', express.static(path.join(__dirname, 'uploads/categories')));
-// Cấu hình đường dẫn tĩnh cho thư mục uploads/books
 app.use('/uploads/books', express.static(path.join(__dirname, 'uploads/books')));
+app.use('/uploads/publishers', express.static(path.join(__dirname, 'uploads/publishers'))); // Đường dẫn cho publishers
 // Middleware để cấu hình CORS
 
 app.use(cors({
@@ -61,6 +61,7 @@ app.use('/', indexRouter);
 app.use('/books',booksRouter);
 app.use('/categories',categoriesRouter);
 app.use('/customers',customersRouter);
+app.use('/publishers', publishersRouter); 
 app.use('/orders',ordersRouter);
 app.use('/admins', adminRouter);
 app.listen(PORT, () => {

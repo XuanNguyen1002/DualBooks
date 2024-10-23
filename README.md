@@ -90,7 +90,6 @@ Dự án BookStore là một ứng dụng quản lý sách trực tuyến và tr
 - **Frontend:** React, Tailwind CSS
 - **Backend:** Node.js
 - **Cơ Sở Dữ Liệu:** MongoDB
-
 ## Cài đặt
 1. Clone repository:
     ```bash

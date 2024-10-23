@@ -137,20 +137,23 @@ exports.getCustomerById = async (customerId) => {
     }
 };
 
-exports.updateCustomerStatus = async (customerId, status) => {
-    try {
-        // Tìm kiếm khách hàng theo ID
-        const customer = await Customer.findById(customerId);
-        if (!customer) {
-            throw new Error('Customer not found');
-        }
-
-        // Cập nhật trạng thái mới
-        customer.status = status;
-        await customer.save(); // Lưu lại thay đổi vào cơ sở dữ liệu
-
-        return customer;
-    } catch (error) {
-        throw new Error('Error updating customer status: ' + error.message);
+exports.updateCustomerStatus = async (customerId) => {
+    // Tìm khách hàng theo ID
+    const customer = await Customer.findById(customerId);
+    
+    if (!customer) {
+        throw new Error('Customer not found');
     }
+
+    // Kiểm tra trạng thái hiện tại của khách hàng
+    if (customer.status === 'blocked') {
+        customer.status = 'active'; // Chuyển từ 'blocked' sang 'active'
+    } else if (customer.status === 'active') {
+        customer.status = 'blocked'; // Chuyển từ 'active' sang 'blocked'
+    }
+
+    // Lưu thay đổi
+    await customer.save();
+
+    return customer;
 };

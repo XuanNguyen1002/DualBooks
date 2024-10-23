@@ -60,3 +60,19 @@ exports.getCustomerById = async (customerId) => {
         throw new Error('Error fetching customer: ' + error.message);
     }
 };
+// Controller để cập nhật trạng thái khách hàng
+exports.updateStatus = async (req, res) => {
+    try {
+        const customerId = req.params.id;
+
+        // Gọi service để cập nhật trạng thái khách hàng
+        const updatedCustomer = await customerService.updateCustomerStatus(customerId);
+
+        res.status(200).json({
+            message: 'Status updated successfully',
+            customer: updatedCustomer
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
