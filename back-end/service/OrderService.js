@@ -56,3 +56,69 @@ exports.getAllOrders = async () => {
         throw new Error('Error fetching orders: ' + error.message);
     }
 };
+exports.getOrdersByUpdateDate = async (date) => {
+    try {
+        // Chuyển đổi ngày thành định dạng ISO cho MongoDB
+        const startDate = new Date(date);
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 1); // Thêm một ngày để lấy tất cả các bản ghi trong ngày
+
+        // Tìm các đơn hàng có ngày cập nhật trong khoảng từ startDate đến endDate
+        const orders = await OrderModel.find({
+            updatedAt: {
+                $gte: startDate,
+                $lt: endDate
+            }
+        }).populate('customer_id', 'name email address phone');
+
+        return orders;
+    } catch (error) {
+        throw new Error('Error fetching orders: ' + error.message);
+    }
+};
+exports.getOrdersByShippingAddress = async (address) => {
+    try {
+        // Tìm các đơn hàng có địa chỉ nhận chứa địa chỉ đã nhập
+        const orders = await OrderModel.find({
+            shipping_address: { $regex: address, $options: 'i' } // Tìm kiếm không phân biệt chữ hoa chữ thường
+        }).populate('customer_id', 'name email address phone');
+
+        return orders;
+    } catch (error) {
+        throw new Error('Error fetching orders: ' + error.message);
+    }
+};
+// // Lấy danh sách đơn hàng theo tên khách hàng
+// exports.getOrdersByCustomerName = async (name) => {
+//     try {
+//         const trimmedName = name.trim(); // Loại bỏ khoảng trắng
+//         const regex = new RegExp(trimmedName, 'i'); // Tạo regex không phân biệt chữ hoa chữ thường
+
+//         // Tìm tất cả khách hàng khớp với tên
+//         const customers = await CustomerModel.find({ name: regex });
+
+//         if (!customers || customers.length === 0) {
+//             throw new Error('Không tìm thấy khách hàng với tên này.');
+//         }
+
+//         const customerIds = customers.map(customer => customer._id); // Lấy danh sách ID khách hàng
+
+//         // Lấy danh sách đơn hàng cho các khách hàng tìm được
+//         const orders = await OrderModel.find({ customer_id: { $in: customerIds } })
+//             .populate('customer_id', 'name email address phone');
+
+//         if (!orders || orders.length === 0) {
+//             throw new Error('Không tìm thấy đơn hàng cho khách hàng này.');
+//         }
+
+//         return orders;
+//     } catch (error) {
+//         console.error('Error fetching orders:', error.message); // In ra thông báo lỗi
+//         throw new Error('Error fetching orders: ' + error.message);
+//     }
+// };
+
+
+
+
+

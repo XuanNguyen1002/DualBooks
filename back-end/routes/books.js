@@ -14,10 +14,9 @@ router.get('/', async function(req, res, next) {
     try {
         const result = await bookController.getAll();
 
-       
-        if (result) {
+        if (result && result.length > 0) {
             console.log('Books fetched successfully:', result);
-            res.status(200).json( result );
+            res.status(200).json(result);  // Gửi phản hồi thành công
         } else {
             console.log('No Books found');
             res.status(404).json({ error: 'No Books found' });
@@ -27,6 +26,9 @@ router.get('/', async function(req, res, next) {
         res.status(500).json({ error: error.message });
     }
 });
+
+module.exports = router;
+
 // Tìm kiếm sách theo từ khóa
 router.get('/search', async (req, res, next) => {
   const query = req.query.query;
@@ -187,7 +189,7 @@ router.post('/', authenticateAdmin, uploadBooks.single('cover_image'), async (re
 // PUT /api/books/:id
 router.put(
     '/:id',
-    authenticateAdmin,
+    // authenticateAdmin,
     uploadBooks.single('cover_image'), // Sử dụng Multer để xử lý tải lên hình ảnh (nếu có)
     [
         // body('title').optional().notEmpty().withMessage('Title không được để trống'),
@@ -252,7 +254,9 @@ router.put(
     }
 );
 // Xóa một cuốn sách
-router.delete('/:id',authenticateAdmin, async (req, res, next) => {
+router.delete('/:id',
+    // authenticateAdmin,
+     async (req, res, next) => {
   const bookId = req.params.id;
 
   try {

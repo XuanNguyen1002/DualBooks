@@ -3,10 +3,18 @@ const categoryModel = require('../models/CategoryModel');
 const fs = require('fs');
 const path = require('path');
 
-exports.getAll = async ()=>{
-    //select * form products
-    const products = await bookModel.find({});
-    return products;
+
+exports.getAll = async () => {
+  try {
+    // Tìm tất cả các sách và populate thông tin từ bảng Category và Publisher
+    const books = await bookModel.find()
+      .populate('categoryID', 'name') // Populate danh mục
+      .populate('publisherID', 'name'); // Populate nhà xuất bản
+
+    return books;
+  } catch (error) {
+    throw new Error('Error fetching books: ' + error.message);
+  }
 };
 // Hàm lọc sách theo thể loại
 exports.getByCategoryID = async function (categoryID) {

@@ -88,6 +88,8 @@ app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}/customers/6707f3aee55fb28d5793988f`);
   console.log(`http://localhost:${PORT}/customers/status/6707f3aee55fb28d5793988f`);
   console.log(`http://localhost:${PORT}/orders`);
+  console.log(`http://localhost:${PORT}/orders/filter-by-date/2024-10-23`);
+  console.log(`http://localhost:${PORT}/orders/filter-by-address/TP.HCM`);
 
 
 
