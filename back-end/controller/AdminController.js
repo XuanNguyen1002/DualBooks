@@ -40,3 +40,37 @@ exports.getAllAdmins = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+exports.updateAdmin = async (req, res) => {
+    const adminId = req.params.id;
+    const updateData = req.body;
+
+    // Kiểm tra nếu có file ảnh mới trong request
+    if (req.file) {
+        updateData.user_img = req.file.filename; // Cập nhật ảnh mới
+    }
+
+    try {
+        const updatedAdmin = await adminService.updateAdmin(adminId, updateData);
+        res.status(200).json({ message: 'Admin updated successfully', data: updatedAdmin });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Hàm xóa admin (controller)
+exports.deleteAdmin = async (req, res) => {
+    const adminId = req.params.id;
+
+    try {
+        // Gọi hàm trong service để thực hiện việc xóa admin
+        const deletedAdmin = await adminService.deleteAdmin(adminId);
+
+        if (!deletedAdmin) {
+            return res.status(404).json({ message: 'Không tìm thấy admin với ID này' });
+        }
+
+        res.status(200).json({ message: 'Xóa admin thành công', data: deletedAdmin });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

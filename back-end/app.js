@@ -75,22 +75,27 @@ app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}/books/author/Nhiều%20Tác%20Giả`);
   console.log(`http://localhost:${PORT}/books/sortedByPrice?sortOrder=asc`);
   console.log(`http://localhost:${PORT}/books/sortedByPrice?sortOrder=desc`);
+
   console.log(`http://localhost:${PORT}/categories`);
   console.log(`http://localhost:${PORT}/categories/66d5672aafc8a51793d731ce`);
+
   console.log(`http://localhost:${PORT}/admins/register`);
   console.log(`http://localhost:${PORT}/admins/login`);
   console.log(`http://localhost:${PORT}/admins`);
+  console.log(`http://localhost:${PORT}/admins/update/67092bf9461bcc185950c10f`);
+
   console.log(`http://localhost:${PORT}/uploads/books/1728314210371-331872765.webp`);
   console.log(`http://localhost:${PORT}/uploads/categories/1727923378988-394065473.webp`);
+
   console.log(`http://localhost:${PORT}/customers/register`);
   console.log(`http://localhost:${PORT}/customers/login`);
   console.log(`http://localhost:${PORT}/customers`);
   console.log(`http://localhost:${PORT}/customers/6707f3aee55fb28d5793988f`);
   console.log(`http://localhost:${PORT}/customers/status/6707f3aee55fb28d5793988f`);
+
   console.log(`http://localhost:${PORT}/orders`);
   console.log(`http://localhost:${PORT}/orders/filter-by-date/2024-10-23`);
   console.log(`http://localhost:${PORT}/orders/filter-by-address/TP.HCM`);
-
 
 
 

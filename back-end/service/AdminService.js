@@ -69,3 +69,38 @@ exports.getAllAdmins = async () => {
         throw new Error('Error fetching admins: ' + error.message);
     }
 };
+
+exports.updateAdmin = async (id, updateData) => {
+    try {
+        // Kiểm tra xem admin có tồn tại không
+        const admin = await Admin.findById(id);
+        if (!admin) {
+            throw new Error('Admin không tồn tại');
+        }
+
+        // Nếu có cập nhật mật khẩu, mã hóa lại mật khẩu
+        if (updateData.password) {
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(updateData.password, salt);
+        }
+
+        // Cập nhật admin với dữ liệu mới
+        Object.assign(admin, updateData);
+        admin.updated_at = new Date(); // Cập nhật thời gian cập nhật
+
+        await admin.save();
+        return admin;
+    } catch (error) {
+        throw new Error('Error updating admin: ' + error.message);
+    }
+};
+// Hàm xóa admin theo ID trong service
+exports.deleteAdmin = async (adminId) => {
+    try {
+        // Tìm và xóa admin theo ID
+        const deletedAdmin = await Admin.findByIdAndDelete(adminId);
+        return deletedAdmin; // Trả về admin đã xóa (nếu có)
+    } catch (error) {
+        throw new Error('Error deleting admin: ' + error.message);
+    }
+};
