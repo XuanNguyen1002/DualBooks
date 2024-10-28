@@ -157,3 +157,16 @@ exports.updateCustomerStatus = async (customerId) => {
 
     return customer;
 };
+// Hàm lọc khách hàng theo tên
+  exports.getByName = async function (name) {
+      try {
+          // Tìm khách hàng theo tên
+          // Thêm \ trước dấu ngoặc để đảm bảo các ký tự đặc biệt không gây lỗi
+          const regexName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+          const customers = await Customer.find({ name: new RegExp(regexName, 'i') }); // Sử dụng RegExp để tìm kiếm không phân biệt chữ hoa chữ thường
+          return customers;
+      } catch (error) {
+          throw new Error('Error fetching customers by name: ' + error.message);
+      }
+  };
+  

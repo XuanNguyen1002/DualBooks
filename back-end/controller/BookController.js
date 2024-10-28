@@ -55,6 +55,17 @@ exports.getByAuthor = async (author) => {
     throw new Error('Error fetching books by author: ' + error.message);
   }
 };
+// Định nghĩa hàm getByTitle để lấy sách theo tên
+exports.getByTitle = async (title) => {
+  try {
+    // Gọi hàm từ service để lấy sách theo tên từ database
+    const books = await bookService.getByTitle(title);
+    return books; // Trả về danh sách sách từ service
+  } catch (error) {
+    // Ném lỗi nếu xảy ra vấn đề trong quá trình lấy sách
+    throw new Error('Error fetching books by title: ' + error.message);
+  }
+};
 // Hàm lấy sách và sắp xếp theo giá
 exports.getAllSortedByPrice = async (sortOrder) => {
   try {

@@ -127,38 +127,4 @@ exports.getOrdersByShippingAddress = async (req, res, address) => {
     }
 };
 
-// // Lấy danh sách đơn hàng theo tên khách hàng
-// exports.getOrdersByCustomerName = async (req, res) => {
-//     const { customerName } = req.params; // Lấy tên khách hàng từ tham số URL
-//     try {
-//         const orders = await orderService.getOrdersByCustomerName(customerName);
-
-//         if (orders.length === 0) {
-//             return res.status(404).json({ message: `Không tìm thấy đơn hàng cho khách hàng: ${customerName}` });
-//         }
-
-//         // Định dạng lại dữ liệu trước khi trả về
-//         const formattedOrders = orders.map((order) => ({
-//             id: order._id,
-//             customer: {
-//                 id: order.customer_id._id,
-//                 name: order.customer_id.name,
-//                 email: order.customer_id.email,
-//                 address: order.customer_id.address,
-//                 phone: order.customer_id.phone,
-//             },
-//             order_date: order.order_date,
-//             order_status: order.order_status,
-//             payment_status: order.payment_status,
-//             shipping_address: order.shipping_address,
-//             total_amount: order.total_amount,
-//             created_at: order.createdAt,
-//             updated_at: order.updatedAt,
-//         }));
-
-//         res.status(200).json(formattedOrders);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
 

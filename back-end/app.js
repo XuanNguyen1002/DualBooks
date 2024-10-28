@@ -17,7 +17,6 @@ var orderItemsRouter = require('./routes/orderItems');
 var adminRouter = require('./routes/admin');
 // khai báo cor
 const cors = require('cors');
-
 const PORT = process.env.PORT || 3200;
 
 
@@ -45,9 +44,6 @@ app.use(cors({
 }))
 app.options('*', cors());
 
-
-
-
 //kết nối db
 const connection = mongoose.connect('mongodb://localhost:27017/DA_TN', {})
     .then(() => {
@@ -73,6 +69,7 @@ app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}/books/66d57256afc8a51793d73227`);
   console.log(`http://localhost:${PORT}/books/category/66e52d1113ae0384d3444c40`);
   console.log(`http://localhost:${PORT}/books/author/Nhiều%20Tác%20Giả`);
+  console.log(`http://localhost:${PORT}/books/title/:title, với :title là tên sách cần tìm`);
   console.log(`http://localhost:${PORT}/books/sortedByPrice?sortOrder=asc`);
   console.log(`http://localhost:${PORT}/books/sortedByPrice?sortOrder=desc`);
 
@@ -81,6 +78,8 @@ app.listen(PORT, () => {
 
   console.log(`http://localhost:${PORT}/admins/register`);
   console.log(`http://localhost:${PORT}/admins/login`);
+  console.log(`http://localhost:${PORT}/admins`);
+  console.log(`http://localhost:${PORT}/admins`);
   console.log(`http://localhost:${PORT}/admins`);
   console.log(`http://localhost:${PORT}/admins/update/67092bf9461bcc185950c10f`);
 
@@ -96,9 +95,6 @@ app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}/orders`);
   console.log(`http://localhost:${PORT}/orders/filter-by-date/2024-10-23`);
   console.log(`http://localhost:${PORT}/orders/filter-by-address/TP.HCM`);
-
-
-
 
 });
 

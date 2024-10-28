@@ -36,6 +36,20 @@ exports.getByAuthor = async function (author) {
       throw new Error('Error fetching books by author: ' + error.message);
   }
 };
+// Hàm getByTitle để tìm sách theo tên
+exports.getByTitle = async function (title) {
+  try {
+      // Thêm \ trước dấu ngoặc để đảm bảo các ký tự đặc biệt không gây lỗi
+      const regexTitle = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+      const books = await bookModel.find({
+          title: { $regex: new RegExp(regexTitle, 'i') }
+      });
+      return books;
+  } catch (error) {
+      throw new Error('Error fetching books by title: ' + error.message);
+  }
+};
+
 // Hàm lấy sách và sắp xếp theo giá
 exports.getAllSortedByPrice = async function (sortOrder = 'asc') {
   try {

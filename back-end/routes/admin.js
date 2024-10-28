@@ -48,5 +48,18 @@ router.delete('/delete/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+// Endpoint lọc admin theo role
+// GET /api/admins/username/<tên>
+router.get('/filter', adminController.getByRole);
+// Endpoint lọc người dùng theo tên
+router.get('/username/:name', async (req, res) => {
+    try {
+        const { name } = req.params; // Lấy tên từ URL parameters
+        await adminController.getAdminsByName(req, res, name);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 module.exports = router;

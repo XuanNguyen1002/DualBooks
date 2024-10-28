@@ -76,3 +76,13 @@ exports.updateStatus = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+// Hàm lấy khách hàng theo tên
+exports.getByName = async (name) => {
+    try {
+      // Gọi hàm từ service để lấy khách hàng theo tên
+      const customers = await customerService.getByName(name);
+      return customers;
+    } catch (error) {
+      throw new Error('Error fetching customers by name: ' + error.message);
+    }
+  };

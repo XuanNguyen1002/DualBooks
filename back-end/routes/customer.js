@@ -80,6 +80,24 @@ router.get('/:id' , async (req, res) => {
 // API chỉnh sửa trạng thái hoạt động của khách hàng
 // Route để cập nhật trạng thái khách hàng
 router.put('/:id/status', customerController.updateStatus);
-
+router.get('/name/:name', async function(req, res, next) {
+    console.log('GET /customers/name/:name endpoint hit');
+    const name = req.params.name;
+    try {
+        // Gọi hàm từ controller để lấy khách hàng theo tên
+        const result = await customerController.getByName(name);
+  
+        if (result.length > 0) {
+            console.log(`Customers fetched successfully for name ${name}:`, result);
+            res.status(200).json(result);
+        } else {
+            console.log(`No Customers found for name ${name}`);
+            res.status(404).json({ error: `No Customers found for name ${name}` });
+        }
+    } catch (error) {
+        console.error(`Error fetching Customers for name ${name}:`, error.message);
+        res.status(500).json({ error: error.message });
+    }
+  });
 
 module.exports = router;

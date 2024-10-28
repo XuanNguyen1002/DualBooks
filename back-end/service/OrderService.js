@@ -88,35 +88,7 @@ exports.getOrdersByShippingAddress = async (address) => {
         throw new Error('Error fetching orders: ' + error.message);
     }
 };
-// // Lấy danh sách đơn hàng theo tên khách hàng
-// exports.getOrdersByCustomerName = async (name) => {
-//     try {
-//         const trimmedName = name.trim(); // Loại bỏ khoảng trắng
-//         const regex = new RegExp(trimmedName, 'i'); // Tạo regex không phân biệt chữ hoa chữ thường
 
-//         // Tìm tất cả khách hàng khớp với tên
-//         const customers = await CustomerModel.find({ name: regex });
-
-//         if (!customers || customers.length === 0) {
-//             throw new Error('Không tìm thấy khách hàng với tên này.');
-//         }
-
-//         const customerIds = customers.map(customer => customer._id); // Lấy danh sách ID khách hàng
-
-//         // Lấy danh sách đơn hàng cho các khách hàng tìm được
-//         const orders = await OrderModel.find({ customer_id: { $in: customerIds } })
-//             .populate('customer_id', 'name email address phone');
-
-//         if (!orders || orders.length === 0) {
-//             throw new Error('Không tìm thấy đơn hàng cho khách hàng này.');
-//         }
-
-//         return orders;
-//     } catch (error) {
-//         console.error('Error fetching orders:', error.message); // In ra thông báo lỗi
-//         throw new Error('Error fetching orders: ' + error.message);
-//     }
-// };
 
 
 

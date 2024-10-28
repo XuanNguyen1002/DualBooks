@@ -58,20 +58,4 @@ router.get('/filter-by-address/:address', async (req, res) => {
     }
 });
 
-
-// // Route: Lọc đơn hàng theo tên khách hàng
-// router.get('/filter-by-customer/:customerName', async (req, res) => {
-//     const customerName = req.params.customerName; // Lấy tên khách hàng từ URL
-
-//     try {
-//         const orders = await orderController.getOrdersByCustomerName(customerName); // Gọi hàm với tên khách hàng
-//         res.status(200).json(orders); // Trả về danh sách đơn hàng
-//     } catch (error) {
-//         res.status(500).json({ error: error.message }); // Trả về lỗi nếu có
-//     }
-// });
-
-
-
-
 module.exports = router;

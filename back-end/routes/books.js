@@ -85,6 +85,29 @@ router.get('/author/:author', async function(req, res, next) {
       res.status(500).json({ error: error.message });
   }
 });
+// Định nghĩa endpoint GET để lọc sách theo tên
+// URL sẽ có dạng: /books/title/:title, với :title là tên sách cần tìm
+router.get('/title/:title', async function(req, res, next) {
+    console.log('GET /books/title/:title endpoint hit'); // Log để kiểm tra khi endpoint được truy cập
+    const title = req.params.title; // Lấy tên sách từ URL
+  
+    try {
+        // Gọi hàm từ controller để lấy sách theo tên từ database
+        const result = await bookController.getByTitle(title);
+  
+        if (result.length > 0) { // Nếu có sách được tìm thấy
+            console.log(`Books fetched successfully for title ${title}:`, result);
+            res.status(200).json(result); // Trả về danh sách sách với mã trạng thái 200
+        } else { // Nếu không tìm thấy sách nào
+            console.log(`No Books found for title ${title}`);
+            res.status(404).json({ error: `No Books found for title ${title}` }); // Trả về lỗi 404
+        }
+    } catch (error) {
+        // Log và trả về lỗi 500 nếu xảy ra lỗi trong quá trình lấy sách
+        console.error(`Error fetching Books for title ${title}:`, error.message);
+        res.status(500).json({ error: error.message });
+    }
+  });
 // Endpoint lấy danh sách sản phẩm hot
 // GET /books/hot
 router.get('/hot', async (req, res) => {
