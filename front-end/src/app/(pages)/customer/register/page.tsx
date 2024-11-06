@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import InputField from "../component/input";
-import useFetchCustomer from "../hook/useFetchCustomer";
+import InputField from "../../../../components/ui/input";
+import useFetchCustomer from "../../../hook/useFetchCustomer";
 
 interface FormData {
   name: string;
@@ -14,7 +14,7 @@ interface FormData {
 }
 
 const RegisterPage = () => {
-  const { register, errors, successMessage } = useFetchCustomer();
+  const { register, errors } = useFetchCustomer();
 
   const [formData, setFormData] = useState<FormData>({
     name: "",

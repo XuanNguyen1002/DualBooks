@@ -105,8 +105,8 @@ const config: Config = {
     },
   },
   plugins: [
-    // require("tailwindcss-animate"),
-    // require('@tailwindcss/line-clamp'),
+    require("tailwindcss-animate"),
+    require('@tailwindcss/line-clamp'),
     // ... thêm các plugin khác nếu cần
   ],
 };
