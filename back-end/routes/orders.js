@@ -17,7 +17,8 @@ router.post('/', async (req, res) => {
             total_quantity, // số lượng đây 
             shipping_address, 
             order_type, // Thêm trường order_type để xác định đơn hàng online hoặc offline
-            customer_feedback // Thêm trường customer_feedback cho đánh giá của khách hàng
+            customer_feedback, // Thêm trường customer_feedback cho đánh giá của khách hàng
+            payment_method // Thêm trường payment_method cho phương thức thanh toán
         } = req.body;
 
         // Gọi controller để tạo đơn hàng
@@ -26,12 +27,13 @@ router.post('/', async (req, res) => {
             staff_id,
             order_date, 
             order_status, 
-            payment_status, 
+            payment_status,
             total_amount, 
             total_quantity, // số lượng đây 
             shipping_address,
             order_type,
-            customer_feedback
+            customer_feedback,
+            payment_method // Truyền payment_method vào controller 
         });
 
         // Trả về phản hồi thành công

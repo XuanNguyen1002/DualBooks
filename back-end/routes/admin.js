@@ -32,6 +32,14 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+// Route: Lấy thông tin chi tiết của một admin
+router.get('/:id', async (req, res) => {
+    try {
+        await adminController.getAdminById(req, res);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 // Route: Cập nhật thông tin admin qua id
 router.put('/update/:id',  uploadAdmin.single('user_img'), async (req, res) => {
     try {

@@ -7,9 +7,14 @@ exports.createOrder = async (orderData) => {
         // Kiểm tra và xác thực dữ liệu đầu vào (nếu cần)
         const { order_type } = orderData;
 
-        // Nếu order_type là 'offline', đảm bảo staff_id được cung cấp
-        if (order_type === 'offline' && !orderData.staff_id) {
-            throw new Error('Staff ID is required for offline orders.');
+        // Nếu order_type là 'offline', đảm bảo staff_id được cung cấp và đặt trạng thái mặc định
+        if (order_type === 'offline') {
+            if (!orderData.staff_id) {
+                throw new Error('Staff ID is required for offline orders.');
+            }
+            // Thiết lập trạng thái đơn hàng và trạng thái thanh toán cho đơn hàng offline
+            orderData.order_status = 'Hoàn thành';
+            orderData.payment_status = 'Đã thanh toán';
         }
 
         // Nếu order_type là 'online', đảm bảo customer_id và shipping_address được cung cấp
@@ -31,6 +36,7 @@ exports.createOrder = async (orderData) => {
         throw new Error('Error creating order: ' + error.message);
     }
 };
+
 
 
 // Controller để lấy chi tiết đơn hàng
