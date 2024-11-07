@@ -76,15 +76,45 @@ exports.getAllSortedByPrice = async (sortOrder) => {
     throw new Error('Error fetching books sorted by price: ' + error.message);
   }
 };
-// Hàm lấy chi tiết sách theo ID
-exports.getBookById = async (id) => {
+exports.getBookDetailsById = async (id) => {
   try {
-    const book = await bookService.getBookById(id);
-    return book;
+    // Gọi service để lấy dữ liệu chi tiết sách
+    const book = await bookService.getBookDetailsById(id);
+
+    // Định dạng dữ liệu trước khi trả về
+    const formattedBook = {
+      id: book._id,
+      title: book.title,
+      author: book.author,
+      category: book.categoryID ? {
+        id: book.categoryID._id,
+        name: book.categoryID.name
+      } : null,
+      publisher: book.publisherID ? {
+        id: book.publisherID._id,
+        name: book.publisherID.name
+      } : null,
+      description: book.description,
+      price: book.price,
+      stock: book.stock,
+      cover_image: book.cover_image,
+      created_at: book.created_at,
+      updated_at: book.updated_at,
+      reviews: book.reviews.map((review) => ({
+        id: review._id,
+        customer_id: review.customer_id,
+        comment: review.comment,
+        rating: review.rating,
+        created_at: review.created_at
+      }))
+    };
+
+    return formattedBook;
   } catch (error) {
-    throw new Error('Error fetching book by ID: ' + error.message);
+    throw new Error('Error fetching book details: ' + error.message);
   }
 };
+
 // Hàm thêm sách mới
 exports.createBook = async (bookData) => {
   try {

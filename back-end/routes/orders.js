@@ -13,7 +13,8 @@ router.post('/', async (req, res) => {
             order_date, 
             order_status, 
             payment_status, 
-            total_amount, 
+            total_amount,
+            total_quantity, // số lượng đây 
             shipping_address, 
             order_type, // Thêm trường order_type để xác định đơn hàng online hoặc offline
             customer_feedback // Thêm trường customer_feedback cho đánh giá của khách hàng
@@ -27,6 +28,7 @@ router.post('/', async (req, res) => {
             order_status, 
             payment_status, 
             total_amount, 
+            total_quantity, // số lượng đây 
             shipping_address,
             order_type,
             customer_feedback

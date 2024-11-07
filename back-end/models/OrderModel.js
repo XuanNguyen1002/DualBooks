@@ -39,6 +39,11 @@ const orderSchema = new Schema({
         type: Number,
         required: true,
     },
+    total_quantity: {  // Trường mới để lưu tổng số lượng đơn hàng
+        type: Number,
+        required: true,
+        default: 0  // Mặc định là 0, có thể cập nhật khi thêm các mặt hàng vào đơn hàng
+    },
     orderItems: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'OrderItem'

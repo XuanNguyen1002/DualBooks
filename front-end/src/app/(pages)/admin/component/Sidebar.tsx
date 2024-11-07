@@ -9,6 +9,7 @@ const Sidebar = () => {
     { icon: <i className="fas fa-user text-xl mr-4"></i>, title: "Nhân viên", link: "/admin/staffs" },
     { icon: <i className="fas fa-users text-xl mr-4"></i>, title: "Khách hàng", link: "/admin/customer" },
     { icon: <i className="fas fa-building text-xl mr-4"></i>, title: "Nhà xuất bản", link: "/admin/nha-xuat-ban" },
+    { icon: <i className="fas fa-boxes text-xl mr-4"></i>, title: "Đơn hàng", link: "/admin/order" }, // Thêm mục "Đơn hàng"
   ];
 
   return (
