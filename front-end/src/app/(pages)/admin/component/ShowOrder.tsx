@@ -2,16 +2,15 @@
 import React from 'react';
 import Link from "next/link";
 import useFetchOrders from '@/app/hook/useFetchOrders';
-interface typeCustomer {
+type typeCustomer = {
   id: string;
   name: string;
   email: string;
-  address?: string;
   phone: string;
-}
+  address?: string;
+};
 
-// Kiểu đơn hàng
-interface typeOrder {
+type typeOrder = {
   id: string;
   order_date: string;
   order_status: string;
@@ -20,8 +19,18 @@ interface typeOrder {
   total_amount: number;
   created_at: string;
   updated_at: string;
-  customer?: typeCustomer; // Thêm customer nếu là đơn online
-}
+  customer?: typeCustomer;
+};
+
+// Định nghĩa ShowOrdersProps như đã trình bày ở trên
+type ShowOrdersProps = {
+  customer : typeCustomer[];
+  orders: typeOrder[];
+  loading: boolean;
+  error: string | null;
+  onDelete: (orderId: string) => void;
+  onStatusToggle: (orderId: string) => void;
+};
 
 // Định dạng thời gian
 const formatDateTime = (dateString:string) => {
@@ -54,8 +63,9 @@ const getStatusColor = (status:string) => {
   }
 };
 
-export default function ShowOrder() {
-  const { orders, loading, error } = useFetchOrders(); // Sử dụng hook lấy dữ liệu đơn hàng
+
+// Component hiển thị danh sách đơn hàng
+export default function ShowOrder({ orders, customers, loading, error, onDelete, onStatusToggle }: ShowOrdersProps) {
 
   // Nếu đang tải dữ liệu
   if (loading) {
@@ -67,11 +77,9 @@ export default function ShowOrder() {
     return <div>Lỗi: {error}</div>;
   }
 
-  // Nếu không có đơn hàng nào
   if (!orders || orders.length === 0) {
-    return <div>Không có đơn hàng nào!</div>;
+    return <div className="text-center p-4">Hiện tại không có đơn hàng nào.</div>;
   }
-
   return (
     <tbody>
       {orders.map((order, index) => (
@@ -84,8 +92,8 @@ export default function ShowOrder() {
           <td className="p-4 border border-white">{order.shipping_address}</td> {/* Địa Chỉ */}
           <td className="p-4 border border-white">{order.total_amount.toLocaleString()} VND</td> {/* Tổng Tiền */}
           <td className="p-4 border border-white">
-            <span className={`${getStatusColor(order.order_status)} text-white rounded px-2 py-1 text-xs`}>
-              {order.order_status}
+          <span className={`${getStatusColor(order.order_status)} text-white rounded px-2 py-1 text-xs`}>
+          {order.order_status}
             </span>
           </td> {/* Trạng Thái */}
           <td className="p-4 text-right">
@@ -94,8 +102,11 @@ export default function ShowOrder() {
             Xem
           </button>
         </Link>
-            <button className="text-yellow-500 hover:underline mr-2">Sửa</button>
-            <button className="text-red-500 hover:underline">Hủy</button>
+        <Link href={`/admin/editOrder/${order.id}`}>
+            <button className="text-red-500 hover:underline mr-2">
+              Hủy
+              </button>
+         </Link>
           </td> {/* Các nút hành động */}
         </tr>
       ))}

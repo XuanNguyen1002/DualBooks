@@ -83,6 +83,23 @@ exports.getBookDetailsById = async (id) => {
     throw new Error('Error fetching book details: ' + error.message);
   }
 };
+exports.incrementBookViews = async (id) => {
+  try {
+    // Tìm sách theo id
+    const book = await bookModel.findById(id);
+    if (!book) {
+      throw new Error('Book not found');
+    }
+
+    // Tăng số lượt xem lên 1
+    book.views += 1;
+    await book.save();
+
+    return { id: book._id, views: book.views };  // Trả về id và số lượt xem mới
+  } catch (error) {
+    throw new Error('Error incrementing book views: ' + error.message);
+  }
+};
 // Hàm tạo sách mới
 exports.createBook = async function (bookData) {
   try {

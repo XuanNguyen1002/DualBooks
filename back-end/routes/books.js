@@ -176,6 +176,20 @@ router.get('/:id', async function(req, res, next) {
       res.status(500).json({ error: error.message });
     }
   });
+  // Route để tăng số lượt xem của sách theo ID
+router.patch('/:id/views', async function(req, res, next) {
+    console.log('PATCH /books/:id/views endpoint hit');
+    const bookId = req.params.id;
+  
+    try {
+      const result = await bookController.incrementBookViews(bookId);
+      console.log('Book views incremented successfully:', result);
+      res.status(200).json(result);  // Trả về số lượt xem mới
+    } catch (error) {
+      console.error('Error incrementing book views:', error.message);
+      res.status(500).json({ error: error.message });
+    }
+  });
 // Endpoint tạo sách mới với hình ảnh
 // POST /api/books
 router.post('/', authenticateAdmin, uploadBooks.single('cover_image'), async (req, res, next) => {

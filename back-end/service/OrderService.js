@@ -1,5 +1,6 @@
 const OrderModel = require('../models/OrderModel');
 const Customer = require('../models/CustomerModel');
+const OrderItem = require('../models/OrderItemModel');
 
 // Tạo một đơn hàng mới
 exports.createOrder = async (orderData) => {
@@ -104,6 +105,36 @@ exports.getOrdersByShippingAddress = async (address) => {
         return orders;
     } catch (error) {
         throw new Error('Error fetching orders: ' + error.message);
+    }
+};
+exports.getOrdersByStatus = async (status) => {
+    try {
+        // Truy vấn các đơn hàng có trạng thái `order_status` phù hợp
+        const orders = await OrderModel.find({ order_status: status })
+            .populate('customer_id', 'name email address phone')
+            .populate('staff_id', 'name email')
+            .populate('orderItems');
+
+        return orders;
+    } catch (error) {
+        throw new Error('Error fetching orders by status: ' + error.message);
+    }
+};
+
+// Service để xóa đơn hàng theo orderId
+exports.deleteOrder = async (orderId) => {
+    try {
+        // Tìm và xóa đơn hàng theo orderId
+        const deletedOrder = await OrderModel.findByIdAndDelete(orderId);
+
+        if (!deletedOrder) {
+            return null; // Nếu không tìm thấy đơn hàng
+        }
+
+        return deletedOrder; // Trả về thông tin của đơn hàng đã bị xóa
+    } catch (error) {
+        console.error('Lỗi khi xóa đơn hàng:', error);
+        throw error;
     }
 };
 

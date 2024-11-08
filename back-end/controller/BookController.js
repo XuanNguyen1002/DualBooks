@@ -97,6 +97,8 @@ exports.getBookDetailsById = async (id) => {
       description: book.description,
       price: book.price,
       stock: book.stock,
+      view:book.views,
+      sale:book.sales,
       cover_image: book.cover_image,
       created_at: book.created_at,
       updated_at: book.updated_at,
@@ -114,7 +116,15 @@ exports.getBookDetailsById = async (id) => {
     throw new Error('Error fetching book details: ' + error.message);
   }
 };
-
+exports.incrementBookViews = async (id) => {
+  try {
+    // Gọi service để tăng số lượt xem
+    const updatedBook = await bookService.incrementBookViews(id);
+    return updatedBook;
+  } catch (error) {
+    throw new Error('Error incrementing book views: ' + error.message);
+  }
+};
 // Hàm thêm sách mới
 exports.createBook = async (bookData) => {
   try {

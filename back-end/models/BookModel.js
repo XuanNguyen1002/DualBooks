@@ -52,7 +52,7 @@ const bookSchema = new mongoose.Schema({
   publisherID: {
     type: Schema.Types.ObjectId,
     ref: 'Publisher', // Tham chiếu đến model Publisher
-    required: true
+  
   },
   views: { 
     type: Number, 

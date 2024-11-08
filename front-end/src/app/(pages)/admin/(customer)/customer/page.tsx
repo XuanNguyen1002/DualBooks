@@ -47,7 +47,8 @@ if (error) return <p>Error loading books!</p>;
         onChange={handleSearchChange}
       />
       <i className="fas fa-search absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"></i>
-    </div>           </div>
+    </div>
+             </div>
           </header>
 
         {/* Bảng dữ liệu khách hàng */}
